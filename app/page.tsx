@@ -1,101 +1,169 @@
-import Image from "next/image";
+"use client"
+import React, { useState } from 'react';
+import sendMail from './api/Nodemailer';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    message: '',
+    country: '',
+    state: '',
+    amount: '',
+    company: '',
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (e:any) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+    sendMail(formData.name, formData.email, formData.mobile, formData.message, formData.country, formData.state, formData.amount, formData.company);
+    alert('Thank you for your offer. We will be in touch soon.');
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
+          Domain for Sale
+        </h1>
+        <p className="text-center text-lg text-gray-600 mb-8">
+          This domain is available for purchase. The minimum offer is <strong>$100</strong>.
+        </p>
+        <a
+          href="https://www.namecheap.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block text-center mb-8 text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-6 py-3 font-semibold transition"
+        >
+          Buy Now on Namecheap
+        </a>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
+              Mobile Number
+            </label>
+            <input
+              type="tel"
+              id="mobile"
+              name="mobile"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+              Country
+            </label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              required
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="state" className="block text-sm font-medium text-gray-700">
+              State
+            </label>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              required
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+              Company (optional)
+            </label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
+              Amount you&apos;re willing to pay (min $100)
+            </label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              min="500"
+              required
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
+              rows={4}
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-6 py-3 font-semibold transition"
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            Submit Offer
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
