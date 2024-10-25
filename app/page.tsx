@@ -138,7 +138,6 @@ export default function Home() {
               name="amount"
               value={formData.amount}
               onChange={handleChange}
-              min="500"
               required
               className="w-full mt-1 p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-blue-500"
             />
